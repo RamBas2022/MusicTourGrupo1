@@ -1,0 +1,44 @@
+[
+    {
+        "id_ubicacion": "1"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+    {
+        "id_ubicacion": "2"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+    {
+        "id_ubicacion": "3"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+    {
+        "id_ubicacion": "4"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+    {
+        "id_ubicacion": "5"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+	{
+        "id_ubicacion": "6"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    },
+    {
+        "id_ubicacion": "7"
+		"nombre": "Teatro Provincial de Salta"
+		"direccion": "Zuviria 70"
+        "coordenadas": "[-24.78892, -65.40938]"
+    }
+]
