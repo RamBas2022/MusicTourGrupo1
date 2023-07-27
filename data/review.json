@@ -5,7 +5,7 @@
 		"id_usuario":"1"
 		"calificacion": "5"
         "Comentario": "Excelentes musicos, muy recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     },
     {
         "id_review": "2",
@@ -13,7 +13,7 @@
 		"id_usuario":"2"
 		"calificacion": "5"
         "Comentario": "Los mejores de Salta, muy recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     },
     {
         "id_review": "3",
@@ -21,7 +21,7 @@
 		"id_usuario":"1"
 		"calificacion": "4"
         "Comentario": "Buenos musicos, recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     },
     {
         "id_review": "4",
@@ -29,7 +29,7 @@
 		"id_usuario":"2"
 		"calificacion": "4"
         "Comentario": "Entusiastas musicos, gran color de voces",
-		"animo": "positivo
+		"animo": "positivo"
     },
     {
         "id_review": "5",
@@ -37,7 +37,7 @@
 		"id_usuario":"1"
 		"calificacion": "4"
         "Comentario": "La ultima banda tradicional gaucha. Recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     },
 	{
         "id_review": "6",
@@ -45,7 +45,7 @@
 		"id_usuario":"2"
 		"calificacion": "5"
         "Comentario": "Folklore joven de Salta, muy recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     },
     {
         "id_review": "7",
@@ -53,6 +53,6 @@
 		"id_usuario":"3"
 		"calificacion": "5"
         "Comentario": "La ultima voz solista del folklore. Muy recomendable",
-		"animo": "positivo
+		"animo": "positivo"
     }
 ]
