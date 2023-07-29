@@ -1,17 +1,1 @@
-[
-    {
-        "id_ruta_visita": 1,
-        "nombre": "Ruta 1",
-        "destinos":[ 1, 3, 5]
-    },
-    {
-        "id_ruta_visita": 2,
-        "nombre": "Ruta 2",
-        "destinos": [ 2 , 4 , 6 ]
-    },
-    {
-        "id_ruta_visita": 3,
-        "nombre": "Ruta 3",
-        "destinos": [ 1, 7]
-    }
-]
+[{"id_ruta_visita": 1,"nombre": "Ruta 1","destinos":[ 1, 3, 5]},{"id_ruta_visita": 2,"nombre": "Ruta 2","destinos": [ 2, 4, 6]},{"id_ruta_visita": 3,"nombre": "Ruta 3","destinos": [7]}]

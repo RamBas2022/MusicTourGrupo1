@@ -5,7 +5,7 @@ Se relacion con los Eventos.
 """
 
 class RutaVisita:
-	def __init__(self, id_ruta_visita: int, nombre: str, destinos: list[int])
+	def __init__(self, id_ruta_visita: int, nombre: str, destinos: list[int]):
 		self.id_ruta_visita = id_ruta_visita
 		self.nombre = nombre
 		self.destinos = destinos
