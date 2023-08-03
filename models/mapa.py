@@ -42,15 +42,15 @@ class VistaMapa (ctk.CtkFrame):
 
       lista = []
       nombre = input ("Nombre del evento: ")
-      click = self.mapa.set_marker (cords[1], cords[2], text=nombre_evento)
+      click = self.mapa.set_marker (cords[1], cords[2], text= nombre_evento)
       dirección = (cords[1], cords[2])
       lista.append ((nombre,dirección, cords[1], cords[2]))
-      mensaje = tk.messagebox.eventoinfo ("Eventos", f" '{nombre}' ha sido agregado")
+      mensaje = tk.messagebox.eventoinfo ("Evento", f" '{nombre}' ha sido agregado")
 
       return lista
 
 
-    self.ubicaciones = self.mapa.add_left_click_map_command(Añadir_marcador_de_evento)         
+    self.ubicaciones = self.mapa.add_left_click_map_command(Agregar_marcador_de_evento)         
 
 
 
