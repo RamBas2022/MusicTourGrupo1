@@ -2,8 +2,9 @@
 Aplicacion Music Tour, Grupo 1, Modelo de datos de los Eventos.
 Se relaciona con el modelo de Ubicacion, donde esta la direccion y coordenadas del Evento.
 ==========================================================================================
-
 """
+import json
+#from json import scanner
 
 class Evento:
 	def __init__(self, id_evento: int, nombre: str, artista: str, genero: str, id_ubicacion: int, hora_inicio: str, hora_fin: str, descripcion: str, imagen: str):
@@ -17,12 +18,16 @@ class Evento:
 		self.descripcion = descripcion
 		self.imagen = imagen
 
+	@classmethod
+	def cargar_evento_json(cls, archivo):
+		with open(archivo, "r") as f:
+			data = json.load(f)
+			print(data)
+		#return(data)
+		return [cls(**evento) for evento in data]
 
-		def to_json(self):
-			return {"id_evento": self.id_evento, "nombre": self.nombre, "artista": self.artista, "genero": self.genero, "id_ubicacion": self.id_ubicacion, "hora_inicio": self.hora_inicio, "hora_fin": self.hora_fin, "descripcion":	self.descripcion, "imagen": self.imagen }
-
-		@classmethod
-		def from_json(cls, json_data):
-			data = json.loads(json_data)
-			return cls(data["id_evento"], data["nombre"], data["artista"], data["genero"], data["id_ubicacion"], data["hora_inicio"], data["hora_fin"], data["descripcion"], data["imagen"])
+	#@classmethod
+	#def cargar_evento_json(cls, json_data):
+	#	data = json.load(json_data)
+	#	return cls(data["id_evento"], data["nombre"], data["artista"], data["genero"], data["id_ubicacion"], data["hora_inicio"], data["hora_fin"], data["descripcion"], data["imagen"])
 
