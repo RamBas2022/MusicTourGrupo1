@@ -1,10 +1,12 @@
 #Mapa y planificador de rutas
 
 import tkinter
-from tkintermapview from TkinterMapView
+from tkintermapview 
+from TkinterMapView
 import tkintermapview as mapa
 import customtkinter as ctk
 
+self = tkinter.Tk()
 ctk.set_appearance_mode("dark")
 
 class VistaMapa (ctk.CtkFrame):
@@ -42,10 +44,10 @@ class VistaMapa (ctk.CtkFrame):
 
       lista = []
       nombre = input ("Nombre del evento: ")
-      click = self.mapa.set_marker (cords[1], cords[2], text= nombre_evento)
+      click = self.mapa.set_marker (cords[1], cords[2], text = nombre_evento)
       dirección = (cords[1], cords[2])
-      lista.append ((nombre,dirección, cords[1], cords[2]))
-      mensaje = tk.messagebox.eventoinfo ("Evento", f" '{nombre}' ha sido agregado")
+      lista.append ((nombre_evento, dirección, cords[1], cords[2]))
+      mensaje = tk.messagebox.eventoinfo ("Evento", f" '{nombre_evento}' ha sido agregado")
 
       return lista
 
