@@ -1,20 +1,38 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import simpledialog, messagebox
 import json
 
-# Funcion para guardar el animo en el archivo "data/animo.json"
-def guardar_animo(animo_data):
-    with open("data/animo.json", "w") as file:
-        json.dump(animo_data, file)
+# Initialice JSON 
+initial_data = {
+    "reviews": [],
+    "animo": []
+}
 
-# Funcion para guardar una reseña en el archivo "data/reviews.json"
+with open("data/review.json", "w") as file:
+    json.dump(initial_data, file, indent=4)
+
+# Funcion para guardar el animo en el archivo "data/review.json"
+def guardar_animo(animo_data):
+    with open("data/review.json", "r") as file:
+        reviews_data = json.load(file)
+
+    reviews_data["animo"].append(animo_data)
+
+    with open("data/review.json", "w") as file:
+        json.dump(reviews_data, file, indent=4)
+
+# Funcion para guardar una reseña en el archivo "data/review.json"
 def guardar_review(review):
-    with open("data/reviews.json", "a") as file:
-        json.dump(review, file)
-        file.write("\n")
+    with open("data/review.json", "r") as file:
+        reviews_data = json.load(file)
+
+    reviews_data["reviews"].append(review)
+
+    with open("data/review.json", "w") as file:
+        json.dump(reviews_data, file, indent=4)
 
 # Funcion para mostrar la ventana de señalar animo
-def mostrar_ventana_animo():
+def mostrar_ventana_animo(id_evento, id_usuario):
     ventana_animo = tk.Toplevel(root)
     ventana_animo.title("Señalar ánimo")
 
@@ -31,7 +49,7 @@ def mostrar_ventana_animo():
 
     def guardar_animo_seleccionado():
         animo = animo_seleccionado.get()
-        guardar_animo({"animo": animo})
+        guardar_animo({"animo": animo, "id_evento": id_evento, "id_usuario": id_usuario})
         messagebox.showinfo("Señalar ánimo de la review", f"Ánimo '{animo}' guardado exitosamente.")
         ventana_animo.destroy()
 
@@ -41,37 +59,32 @@ def mostrar_ventana_animo():
     # Retornar el animo seleccionado para que pueda ser capturado en la funcion de guardar_review_comentario()
     return animo_seleccionado
 
-# Funcion para mostrar la ventana de reseña y calificaciones
-def mostrar_ventana_resena():
-    ventana_resena = tk.Toplevel(root)
-    ventana_resena.title("Reseña y calificaciones")
+# Funcion para mostrar la ventana de escribir reseña
+def mostrar_ventana_escribir_review(id_evento, id_usuario):
+    ventana_escribir_review = tk.Toplevel(root)
+    ventana_escribir_review.title("Escribir Review")
 
-    nombres_eventos = [evento["nombre"] for evento in eventos]
-    evento_seleccionado = tk.StringVar(ventana_resena)
-    evento_seleccionado.set(nombres_eventos[0]) 
-
-    label_evento = tk.Label(ventana_resena, text="Seleccione un evento:")
+    label_evento = tk.Label(ventana_escribir_review, text=f"Nro. de Evento: {id_evento}")
     label_evento.pack()
 
-    menu_eventos = tk.OptionMenu(ventana_resena, evento_seleccionado, *nombres_eventos)
-    menu_eventos.pack()
+    label_usuario = tk.Label(ventana_escribir_review, text=f"Nro. de Usuario: {id_usuario}")
+    label_usuario.pack()
 
-    comentario_label = tk.Label(ventana_resena, text="Escriba su reseña:")
+    comentario_label = tk.Label(ventana_escribir_review, text="Escriba su reseña:")
     comentario_label.pack()
 
-    comentario_text = tk.Text(ventana_resena, height=5, width=40)
+    comentario_text = tk.Text(ventana_escribir_review, height=5, width=40)
     comentario_text.pack()
 
-    calificacion_label = tk.Label(ventana_resena, text="Seleccione una calificación:")
+    calificacion_label = tk.Label(ventana_escribir_review, text="Seleccione una calificación:")
     calificacion_label.pack()
 
     calificacion_seleccionada = tk.IntVar()
     for i in range(1, 6):
-        radiobutton = tk.Radiobutton(ventana_resena, text=str(i), variable=calificacion_seleccionada, value=i)
+        radiobutton = tk.Radiobutton(ventana_escribir_review, text=str(i), variable=calificacion_seleccionada, value=i)
         radiobutton.pack(anchor=tk.W)
 
     def guardar_review_comentario():
-        evento_nombre = evento_seleccionado.get()
         calificacion = calificacion_seleccionada.get()
         comentario = comentario_text.get("1.0", tk.END).strip()
 
@@ -79,35 +92,23 @@ def mostrar_ventana_resena():
             messagebox.showerror("Error", "Por favor, ingrese un comentario.")
             return
 
-        # Obtener el ID del evento seleccionado
-        id_evento_seleccionado = next((evento["id_evento"] for evento in eventos if evento["nombre"] == evento_nombre), None)
-
-        if id_evento_seleccionado is None:
-            messagebox.showerror("Error", "Evento inválido.")
-            return
-
-        # Capturar el animo seleccionado desde la ventana de señalar animo
-        animo_seleccionado = mostrar_ventana_animo().get()
-
         review = {
             "id_review": len(eventos) + 1,
-            "id_evento": id_evento_seleccionado,
-            "id_usuario": 1,  # ID de usuario ficticio
+            "id_evento": id_evento,
+            "id_usuario": id_usuario,
             "calificacion": calificacion,
             "Comentario": comentario,
-            "animo": animo_seleccionado  # Utilizar el ánimo seleccionado en la reseña
         }
 
         guardar_review(review)
         messagebox.showinfo("Escribir review", "Review guardada exitosamente.")
-        ventana_resena.destroy()
+        ventana_escribir_review.destroy()
 
-    boton_guardar_review = tk.Button(ventana_resena, text="Guardar Review", command=guardar_review_comentario)
+    boton_guardar_review = tk.Button(ventana_escribir_review, text="Guardar Review", command=guardar_review_comentario)
     boton_guardar_review.pack(pady=10)
 
-    boton_señalar_animo = tk.Button(ventana_resena, text="Señalar Ánimo de Review", command=mostrar_ventana_animo)
-    boton_señalar_animo.pack(pady=10)
-
+    boton_volver_menu = tk.Button(ventana_escribir_review, text="Volver al Menú Principal", command=root.deiconify)
+    boton_volver_menu.pack(pady=10)
 
 # Funcion para mostrar la ventana de compartir en redes sociales
 def mostrar_ventana_compartir():
@@ -128,15 +129,25 @@ def mostrar_ventana_compartir():
     def compartir():
         seleccionadas = [red_social for red_social, var in redes_sociales if var.get()]
         if seleccionadas:
-            mensaje = f"Se compartirá en: {', '.join(seleccionadas)}"
+            # Aquí guardamos la información en los archivos correspondientes
+            guardar_animo({"redes_sociales": seleccionadas})
+            guardar_review({"redes_sociales": seleccionadas})
+            messagebox.showinfo("Compartir en redes sociales", "Información compartida en redes sociales.")
+            ventana_compartir.destroy()
+            root.deiconify()  # Vuelve al menú principal después de compartir
         else:
-            mensaje = "No se seleccionaron redes sociales para compartir."
-
-        messagebox.showinfo("Compartir en redes sociales", mensaje)
+            messagebox.showwarning("Compartir en redes sociales", "No se seleccionaron redes sociales.")
 
     boton_compartir = tk.Button(ventana_compartir, text="Compartir", command=compartir)
     boton_compartir.pack(pady=10)
-    
+
+    boton_volver_menu = tk.Button(ventana_compartir, text="Volver al Menú Principal", command=root.deiconify)
+    boton_volver_menu.pack(pady=10)
+
+# Obtener el número de evento (id_evento) y número de usuario (id_usuario)
+id_evento = simpledialog.askinteger("Nro. de Evento", "Ingrese el número de evento:")
+id_usuario = simpledialog.askinteger("Nro. de Usuario", "Ingrese el número de usuario:")
+
 # Leer datos de eventos desde el archivo "data/evento.json"
 with open("data/evento.json", "r") as eventos_file:
     eventos = json.load(eventos_file)
@@ -151,6 +162,19 @@ titulo_label.pack(pady=20)
 
 boton_mapa = tk.Button(root, text="Mapa y planificador de rutas")
 boton_mapa.pack()
+
+def mostrar_ventana_resena():
+    ventana_resena = tk.Toplevel(root)
+    ventana_resena.title("Reseña y calificaciones")
+
+    boton_escribir_review = tk.Button(ventana_resena, text="Escribir Review", command=lambda: mostrar_ventana_escribir_review(id_evento, id_usuario))
+    boton_escribir_review.pack(pady=10)
+
+    boton_señalar_animo = tk.Button(ventana_resena, text="Señalar Ánimo", command=lambda: mostrar_ventana_animo(id_evento, id_usuario))
+    boton_señalar_animo.pack(pady=10)
+
+    boton_volver_menu = tk.Button(ventana_resena, text="Volver al Menú Principal", command=root.deiconify)
+    boton_volver_menu.pack(pady=10)
 
 boton_resena = tk.Button(root, text="Reseñas y Calificaciones", command=mostrar_ventana_resena)
 boton_resena.pack()
