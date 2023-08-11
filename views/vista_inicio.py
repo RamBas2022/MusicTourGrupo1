@@ -2,7 +2,7 @@
 
 import tkinter as tk
 from tkinter.font import Font
-
+import recibeUsuario
 
 class VistaInicio(tk.Frame):
     def __init__(self, master=None, controlador=None):
@@ -26,18 +26,18 @@ class VistaInicio(tk.Frame):
         descripcion_font = Font(family="Open Sans", size=12, weight="bold")
 
         # Crea una etiqueta para la descripción de la funcionalidad y la agrega a la vista
+
         self.descripcion = tk.Label(
             self,
-            text="Aquí puedes buscar y seleccionar todos los Eventos Musicales de temporada, con toda la información necesaria para que puedas asistir!",
+            text="Aquí puedes buscar y seleccionar todos los Eventos Musicales de temporada, con toda la información necesaria para que puedas asistir. Bienvenido !!!",
             font=descripcion_font,
-            # wraplength=300,
             wraplength=900
         )
         # self.descripcion.grid(row=1, column=0, pady=50)
         self.descripcion.grid(row=1, column=0, padx=40, pady=10)
 
         
-        # Crea el botón para ir a Eventos y lo agrega a la vista
+        # Crea el botón para ir a Indice Eventos y lo agrega a la vista
         
         self.boton_eventos = tk.Button(
             self, text="Indice de Eventos", command=self.controlador.mostrar_eventos

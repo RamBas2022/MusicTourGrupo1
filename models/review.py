@@ -2,6 +2,8 @@
 Aplicacion Music Tour, Grupo 1, Modelo de datos de los Review, para calificar los Eventos.
 ==========================================================================================
 """
+import json
+#from json import scanner
 
 class Review:
 	def __init__(self, id_review: int, id_evento: int, id_usuario: int, calificacion: int, comentario: str, animo: str):
@@ -16,6 +18,10 @@ class Review:
 			return {"id_review": self.id_review, "id_evento": self.id_evento,"id_usuario": self.id_usuario,"calificacion": self.calificacion, "comentario": self.comentario, "animo": self.animo}
 
 	@classmethod
-	def from_json(cls, json_data):
-		data = json.loads(json_data)
-		return cls(data["id_review"], data["id_evento"], data["id_usuario"], data["calificacion"], data["comentario"], data["animo"])
+	def cargar_review_json(cls, archivo):
+		with open(archivo, "r") as f:
+			data = json.load(f)
+			print(data)
+
+
+	

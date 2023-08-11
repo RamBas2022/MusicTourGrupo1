@@ -23,11 +23,8 @@ class Evento:
 		with open(archivo, "r") as f:
 			data = json.load(f)
 			print(data)
-		#return(data)
+		
 		return [cls(**evento) for evento in data]
 
-	#@classmethod
-	#def cargar_evento_json(cls, json_data):
-	#	data = json.load(json_data)
-	#	return cls(data["id_evento"], data["nombre"], data["artista"], data["genero"], data["id_ubicacion"], data["hora_inicio"], data["hora_fin"], data["descripcion"], data["imagen"])
+	
 

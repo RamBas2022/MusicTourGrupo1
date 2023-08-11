@@ -1,6 +1,8 @@
 # Views eventos
 
 import tkinter as tk
+import json
+#import busquedaF13
 
 class VistaBusqueda(tk.Frame):
     def __init__(self, master=None, controlador=None):
@@ -11,10 +13,9 @@ class VistaBusqueda(tk.Frame):
         self.master = master
         self.controlador = controlador
 
-        # self.titulo = tk.Label(self, text="Lista de Juegos")
         self.titulo = tk.Label(self, text="Busqueda y filtrado")
         self.titulo.pack(pady=10)
-
+       
         self.listbox = tk.Listbox(self)
         self.listbox.config(width=50)
 

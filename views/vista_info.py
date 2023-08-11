@@ -2,7 +2,6 @@
 
 import tkinter as tk
 
-
 class VistaInfo(tk.Frame):
     def __init__(self, master=None, controlador=None):
         """
@@ -11,12 +10,13 @@ class VistaInfo(tk.Frame):
         super().__init__(master)
         self.master = master
         self.controlador = controlador
-        #evento_font = Font(family="Open Sans", size=10, weight="bold")
+        
         self.evento_label = tk.Label(self, text="Detalle del evento seleccionado:")
-        
         self.evento_label.pack(pady=50)
-        
         self.evento_label.config(justify=tk.LEFT)
+
+        #self.evento_label.font(family="Open Sans", size=10, weight="bold")
+
         self.boton_regresar = tk.Button(
             self,
             text="Regresar al Indice de Eventos",

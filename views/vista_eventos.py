@@ -11,7 +11,7 @@ class VistaEventos(tk.Frame):
         self.master = master
         self.controlador = controlador
 
-        # self.titulo = tk.Label(self, text="Lista de Juegos")
+        # Muestra eventos en 
         self.titulo = tk.Label(self, text="Explorar Indice de Eventos")
         self.titulo.pack(pady=10)
 

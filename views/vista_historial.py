@@ -11,7 +11,7 @@ class VistaHistorial(tk.Frame):
         self.master = master
         self.controlador = controlador
 
-        # self.titulo = tk.Label(self, text="Lista de Juegos")
+        # Ver Historial
         self.titulo = tk.Label(self, text="Explorar Historial")
         self.titulo.pack(pady=10)
 
@@ -32,7 +32,7 @@ class VistaHistorial(tk.Frame):
 
     def actualizar_eventos(self):
         """
-        Actualiza la lista de eventos con los juegos obtenidos del controlador.
+        Actualiza la lista de eventos con los datos obtenidos del controlador.
         """
         eventos = self.controlador.obtener_eventos()
         print(eventos)
