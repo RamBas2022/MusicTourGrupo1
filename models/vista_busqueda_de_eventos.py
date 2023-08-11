@@ -1,92 +1,102 @@
 import tkinter as tk
+import json
 
-class EventSearchView(tk.Frame):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.parent = parent
-        self.create_widgets()
+def cargar_datos():
+    with open('data/evento.json', 'r') as archivo:
+        eventos = json.load(archivo)
+    with open('data/ubicacion.json', 'r') as ubicacion_archivo:
+        ubicaciones = {u['id_ubicacion']: u for u in json.load(ubicacion_archivo)}
+    return eventos, ubicaciones
 
-    def create_widgets(self):
-        # Crear etiqueta de búsqueda y entrada
-        self.search_label1 = tk.Label(self, text="Buscar por Nombre:")
-        self.search_label1.pack(side=tk.LEFT)
-        self.search_entry1 = tk.Entry(self)
-        self.search_entry1.pack(side=tk.LEFT)
+def buscar_eventos():
+    global resultados, marco_resultados
+    criterio = entrada_busqueda.get().lower()
+    resultados = [evento for evento in eventos if
+                  criterio in evento['nombre'].lower() or
+                  criterio in evento['genero'].lower() or
+                  criterio in evento['artista'].lower()]
+    mostrar_resultados()
 
-        # Crear botón buscar
-        self.search_button = tk.Button(self, text="Buscar", command=self.search_events)
-        self.search_button.pack(side=tk.LEFT)
+def filtrar_por_ubicacion_horario():
+    global resultados, marco_resultados
+    criterio = entrada_filtro.get().lower()
+    resultados = [evento for evento in eventos if
+                  criterio in ubicaciones.get(evento['id_ubicacion'], {}).get('nombre', '').lower() or
+                  criterio in evento['hora_inicio'].lower() or
+                  criterio in evento['hora_fin'].lower()]
+    mostrar_resultados()
 
-        self.search_label2 = tk.Label(self, text="Buscar por Género:")
-        self.search_label2.pack(side=tk.LEFT)
-        self.search_entry2 = tk.Entry(self)
-        self.search_entry2.pack(side=tk.LEFT)
+def mostrar_resultados():
+    lista_resultados.delete(0, tk.END)
+    for evento in resultados:
+        evento_details = f"Nombre: {evento['nombre']}\nGénero: {evento['genero']}\nArtista: {evento['artista']}"
+        lista_resultados.insert(tk.END, evento_details)
 
-        # Crear botón buscar
-        self.search_button = tk.Button(self, text="Buscar", command=self.search_events)
-        self.search_button.pack(side=tk.LEFT)
+def mostrar_detalles(evento_seleccionado):
+    if not evento_seleccionado:
+        return
+    
+    indice_seleccionado = lista_resultados.curselection()[0]
+    evento = resultados[indice_seleccionado]
 
-        self.search_label3 = tk.Label(self, text="Buscar por Artista:")
-        self.search_label3.pack(side=tk.LEFT)
-        self.search_entry3 = tk.Entry(self)
-        self.search_entry3.pack(side=tk.LEFT)
+    evento_details = f"Nombre: {evento['nombre']}\nGénero: {evento['genero']}\nArtista: {evento['artista']}"
 
-        # Crear botón buscar
-        self.search_button = tk.Button(self, text="Buscar", command=self.search_events)
-        self.search_button.pack(side=tk.LEFT)
+    reviews = reviews_data.get(str(evento['id_evento']), [])
+    if reviews:
+        evento_details += "\n\nReseñas:\n"
+        for review in reviews:
+            evento_details += f"Calificación: {review['calificacion']} - Comentario: {review['Comentario']} - Animo: {review['animo']}\n"
 
-        # Crear etiqueta de filtrado y entrada
-        self.filter_label1 = tk.Label(self, text="Filtrado por Ubicación:")
-        self.filter_label1.pack(side=tk.LEFT)
-        self.filter_entry1 = tk.Entry(self)
-        self.filter_entry1.pack(side=tk.LEFT)
+    lista_resultados.delete(0, tk.END)
+    lista_resultados.insert(tk.END, evento_details)
 
-        # Crear botón filtrar
-        self.filter_button = tk.Button(self, text="Filtrar", command=self.filter_events)
-        self.filter_button.pack(side=tk.LEFT)
+#Ventana principal
+ventana = tk.Tk()
+ventana.title("Búsqueda y Filtrado de Eventos")
+ventana.geometry("960x540")
+ventana.configure(bg="#E5E5E5")
 
-        self.filter_label2 = tk.Label(self, text="Filtrado por Horario:")
-        self.filter_label2.pack(side=tk.LEFT)
-        self.filter_entry2 = tk.Entry(self)
-        self.filter_entry2.pack(side=tk.LEFT)
+eventos, ubicaciones = cargar_datos()
 
-        # Crear botón filtrar
-        self.filter_button = tk.Button(self, text="Filtrar", command=self.filter_events)
-        self.filter_button.pack(side=tk.LEFT)
+marco_busqueda = tk.Frame(ventana, borderwidth=2, relief="ridge", padx=10, pady=10, bg="#A1A892")
+marco_busqueda.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-    def search_events(self):
-        search_text1 = self.search_entry1.get()
-        search_text2 = self.search_entry2.get()
-        search_text3 = self.search_entry3.get()
+etiqueta_busqueda = tk.Label(marco_busqueda, text="Buscar por Nombre, Género y Artista:", font=("Open Sans", 12), bg="#A1A892")
+etiqueta_busqueda.pack()
 
-        # Realizar la lógica de búsqueda aquí
+entrada_busqueda = tk.Entry(marco_busqueda, font=("Open Sans", 12))
+entrada_busqueda.pack()
 
-        # Borrar los campos de entrada de búsqueda
-        self.search_entry1.delete(0, tk.END)
-        self.search_entry2.delete(0, tk.END)
-        self.search_entry3.delete(0, tk.END)
+boton_buscar = tk.Button(marco_busqueda, text="Buscar", command=buscar_eventos, font=("Open Sans", 12))
+boton_buscar.pack()
 
-        # Actualizar la lista de eventos con los resultados de la búsqueda
+marco_filtro = tk.Frame(ventana, borderwidth=2, relief="ridge", padx=10, pady=10, bg="#A1A892")
+marco_filtro.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-    def filter_events(self):
-        filter_text1 = self.filter_entry1.get()
-        filter_text2 = self.filter_entry2.get()
+etiqueta_filtro = tk.Label(marco_filtro, text="Filtro por Ubicación o Horario:", font=("Open Sans", 12), bg="#A1A892")
+etiqueta_filtro.pack()
 
-        # Realizar la lógica de filtrado aquí
+entrada_filtro = tk.Entry(marco_filtro, font=("Open Sans", 12))
+entrada_filtro.pack()
 
-        # Borrar los campos de entrada de filtrado
-        self.filter_entry1.delete(0, tk.END)
-        self.filter_entry2.delete(0, tk.END)
+boton_filtrar = tk.Button(marco_filtro, text="Filtrar", command=filtrar_por_ubicacion_horario, font=("Open Sans", 12))
+boton_filtrar.pack()
 
-        # Actualizar la lista de eventos con los resultados del filtrado
+marco_resultados = tk.Frame(ventana, borderwidth=2, relief="ridge", padx=10, pady=10, bg="#A1A892")
+marco_resultados.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
+lista_resultados = tk.Listbox(marco_resultados, font=("Open Sans", 12))
+lista_resultados.pack(fill=tk.BOTH, expand=True)
 
-# Crear la ventana principal de la aplicación
-root = tk.Tk()
+reviews_data = {}
+with open('data/review.json', 'r') as review_archivo:
+    reviews_list = json.load(review_archivo)
+    for review in reviews_list:
+        id_evento = str(review['id_evento'])
+        if id_evento not in reviews_data:
+            reviews_data[id_evento] = []
+        reviews_data[id_evento].append(review)
 
-# Crear la instancia de EventSearchView y empaquetarla en la ventana raíz
-event_search_view = EventSearchView(root)
-event_search_view.pack()
+lista_resultados.bind('<<ListboxSelect>>', lambda event: mostrar_detalles(lista_resultados.get(lista_resultados.curselection()[0])))
 
-# Iniciar el ciclo de eventos de Tkinter
-root.mainloop()
+ventana.mainloop()
